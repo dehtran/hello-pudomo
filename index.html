@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>hello.pudomo.com — Domo's Play-Hub & Snack Kitchen</title>
+  
+  <!-- Preconnect to speed up Google Fonts loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <div class="logo">pudomo<span>.com</span></div>
+      <button id="mute-toggle" class="icon-btn" aria-label="Toggle Sound">🔊</button>
+    </header>
+
+    <main class="game-stage">
+      <div class="speech-bubble-container">
+        <div id="speech-bubble" class="speech-bubble">
+          <span id="speech-text">Hi friend! I'm Domo, your host at pudomo.com! Try feeding me a snack from below and see what happens!</span>
+        </div>
+      </div>
+
+      <div class="mascot-container" id="domo-container">
+        <domo-mascot id="domo"></domo-mascot>
+      </div>
+
+      <div class="invitation-badge hidden" id="invite-badge">
+        👉 Domo has a custom message for you! <br><strong>[Tap/Click anywhere to listen]</strong>
+      </div>
+    </main>
+
+    <footer class="controls-area">
+      <div class="snack-tray-container">
+        <div id="snack-tray" class="snack-tray"></div>
+      </div>
+      <div class="input-bar">
+        <input type="text" id="custom-message" maxlength="120" placeholder="Type a message for Domo to say...">
+        <button id="share-btn" class="share-btn">Copy Share Link 🔗</button>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+/* Core Design Tokens & Mobile Setup */
+:root {
+  /* Colors */
+  --bg-primary: #FAF8F5;       /* Creamy warm white */
+  --bg-card: #FFFFFF;
+  --text-primary: #2C2623;     /* Warm dark charcoal */
+  --text-secondary: #7A726E;   /* Muted warm grey */
+  --accent-sunshine: #FFD23F;  /* Sunshine yellow */
+  --accent-coral: #FF5A5F;     /* Vibrant coral */
+  --accent-sky: #A8DADC;       /* Soft sky blue */
+  --shadow-sm: 0 2px 8px rgba(44, 38, 35, 0.04);
+  --shadow-md: 0 8px 24px rgba(44, 38, 35, 0.08);
+  
+  /* Fonts */
+  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  
+  /* UI Layout Adjustments */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  overflow: hidden; /* Strict scroll locking */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable selections and touch callouts globally (especially on game assets) */
+body, html, #app, .game-stage, .mascot-container, domo-mascot, .domo-svg, .controls-area, .snack-tray, .snack-item, button {
+  -webkit-user-select: none;   /* Safari */
+  user-select: none;
+  -webkit-touch-callout: none; /* Block image long-press download dialogs */
+}
+
+/* Keep input fields selectable so typing works */
+input {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 500px; /* Perfect sizing for desktop simulation */
+  margin: 0 auto;
+  padding: 16px;
+  justify-content: space-between;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.logo span {
+  color: var(--accent-coral);
+}
+
+.icon-btn {
+  background: var(--bg-card);
+  border: 1px solid rgba(44, 38, 35, 0.08);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+  background-color: #F3F1ED;
+}
+
+/* Game Stage */
+.game-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  position: relative;
+}
+
+/* Speech Bubble */
+.speech-bubble-container {
+  width: 100%;
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.speech-bubble {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 14px 20px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+  max-width: 90%;
+  border: 2px solid rgba(44, 38, 35, 0.04);
+}
+
+/* Speech Bubble Pointer Arrow */
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: var(--bg-card) transparent;
+  display: block;
+  width: 0;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 11px 11px 0;
+  border-style: solid;
+  border-color: rgba(44, 38, 35, 0.04) transparent;
+  display: block;
+  width: 0;
+  z-index: -1;
+}
+
+/* Mascot Container */
+.mascot-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  touch-action: none; /* Disables standard zooming and panning on iOS */
+  flex-grow: 1;
+}
+
+domo-mascot {
+  display: block;
+  width: clamp(180px, 45vw, 260px);
+  aspect-ratio: 1 / 1;
+  cursor: grab;
+  transition: transform 0.1s ease-out; /* Smooth spring catch up */
+}
+
+domo-mascot:active {
+  cursor: grabbing;
+}
+
+/* SVG Layout and Animation Classes */
+.domo-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Base Body Group for JS squish. Anchor to bottom center of SVG canvas */
+.domo-body-group {
+  transform-origin: 100px 160px;
+}
+
+/* Idle animation classes */
+.domo-idle-group {
+  transform-origin: 100px 140px;
+  animation: idle-bob 4s ease-in-out infinite;
+}
+
+.domo-shadow {
+  transform-origin: 100px 170px;
+  animation: shadow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes idle-bob {
+  0%, 100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(4px) scale(1.02, 0.98);
+  }
+}
+
+@keyframes shadow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.35;
+  }
+}
+
+/* Accessory & Mouth visibility rules */
+.hidden-layer {
+  display: none !important;
+}
+
+/* Invitation Badge */
+.invitation-badge {
+  background: var(--accent-sunshine);
+  border: 2px solid var(--text-primary);
+  box-shadow: var(--shadow-md);
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  position: absolute;
+  bottom: 20%;
+  animation: float-badge 2s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Controls Area (Footer) */
+.controls-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+/* Input Bar: Stacked vertically for finger-friendly mobile touch-targets and zero horizontal clipping */
+.input-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.input-bar input {
+  width: 100%;
+  height: 48px; /* High-density finger-friendly touch target */
+  border: 1px solid rgba(44, 38, 35, 0.12);
+  border-radius: 12px;
+  padding: 0 16px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background-color: var(--bg-card);
+  outline: none;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-bar input:focus {
+  border-color: var(--accent-coral);
+  box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.15);
+}
+
+.share-btn {
+  background-color: var(--accent-coral);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  height: 48px; /* High-density finger-friendly touch target */
+  width: 100%;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-btn:active {
+  transform: scale(0.96);
+  background-color: #E04E53;
+}
+
+/* Snack Tray */
+.snack-tray-container {
+  width: 100%;
+}
+
+.snack-tray {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid rgba(44, 38, 35, 0.06);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Snack Item Card */
+.snack-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  border: 1px solid rgba(44, 38, 35, 0.08);
+  border-radius: 12px;
+  width: 52px;
+  height: 52px;
+  cursor: grab;
+  font-size: 1.65rem;
+  line-height: 1; /* Center emojis vertically on iOS */
+  padding: 0;     /* Clear browser default button padding */
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+  user-select: none;
+  touch-action: none; /* Block browser native gestures so custom dragging works */
+  position: relative;
+  z-index: 20;
+}
+
+.snack-item:active {
+  cursor: grabbing;
+  transform: scale(0.92);
+}
+
+.snack-item:hover {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(44, 38, 35, 0.15);
+}
+
+/* Flying Snack CSS */
+.flying-snack {
+  position: absolute;
+  font-size: 2.2rem;
+  z-index: 99;
+  pointer-events: none;
+}
+
+/* Dynamic Reaction FX Overlay (like electricity, ice, stars) */
+.reaction-overlay {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+/* --- Domo Reaction Composition Group --- */
+.domo-reaction-group {
+  transform-origin: 100px 160px; /* Anchored to ground-level bottom center */
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+/* 🌶️ Chili Reaction: horizontally violent shaking + two jumps */
+.state-chili #domo-body {
+  fill: #FF4B2B !important;
+  transition: fill 0.3s ease;
+}
+.state-chili-shake {
+  animation: chili-shake-hop 0.4s ease-in-out infinite;
+}
+
+@keyframes chili-shake-hop {
+  0%, 100% { transform: translate(0px, 0px); }
+  10%, 30% { transform: translate(-5px, 0px); }
+  20%, 40% { transform: translate(5px, -8px); } /* Hop 1 & 2 */
+  50%, 70% { transform: translate(-5px, 0px); }
+  60%, 80% { transform: translate(5px, -8px); }
+  90% { transform: translate(-2px, 0px); }
+}
+
+/* 🎈 Helium Balloon Reaction: inflate + float upward gently */
+.state-balloon {
+  transform: scale(1.4) translateY(-110px) !important;
+  transition: transform 2.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+/* Slowly sway while floating */
+.state-balloon-sway {
+  animation: balloon-sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes balloon-sway {
+  0% { transform: translateX(-6px) rotate(-2deg); }
+  100% { transform: translateX(6px) rotate(2deg); }
+}
+
+/* ⚡ Static Spark Reaction: Pinball ricochet left and right + frizz shake */
+.state-spark-ricochet {
+  animation: spark-ricochet 0.8s ease-in-out infinite alternate, spark-frizz 0.05s infinite;
+}
+
+@keyframes spark-ricochet {
+  0% { transform: translateX(-80px) scaleX(0.85); }
+  50% { transform: translateX(80px) scaleX(0.85); }
+  100% { transform: translateX(0px) scaleX(1); }
+}
+
+@keyframes spark-frizz {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* ☕ Espresso Shot Reaction: Hyper bob up and down */
+.state-espresso-bob {
+  animation: espresso-hyper-bob 0.22s infinite alternate;
+}
+
+@keyframes espresso-hyper-bob {
+  0% { transform: translateY(0) scaleY(1); }
+  100% { transform: translateY(-16px) scaleY(0.92); }
+}
+
+/* Motion blur/trail for Espresso */
+.state-espresso-trail {
+  filter: drop-shadow(4px 4px 10px rgba(255, 90, 95, 0.35)) 
+          drop-shadow(-4px -4px 10px rgba(255, 210, 63, 0.35));
+}
+
+/* 🧊 Frost Cube Reaction: turn cyan + shiver */
+.state-frozen #domo-body {
+  fill: #00F2FE !important;
+  transition: fill 0.3s ease;
+}
+.state-frost-shiver {
+  animation: frost-shiver 0.08s infinite alternate;
+}
+
+@keyframes frost-shiver {
+  0% { transform: translateX(-2px); }
+  100% { transform: translateX(2px); }
+}
+
+/* 👑 Golden Star Reaction: Triumphant spin */
+.state-star-spin {
+  animation: star-spin 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes star-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* --- Confetti Particles --- */
+.confetti-particle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.2rem;
+  z-index: 10;
+  animation: confetti-fall 2.5s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+    opacity: 0;
+  }
+}

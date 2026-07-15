@@ -1,4 +1,4 @@
-# Technical Specification: hello.pudomo.com (Pudo's Play-Hub & Snack Kitchen)
+# Technical Specification: hello.pudomo.com (Domo's Play-Hub & Snack Kitchen)
 
 ## 1. Project Overview & Objectives
 **Target Domain:** `hello.pudomo.com`  
@@ -18,30 +18,30 @@
 
 ## 3. Core Component Breakdown
 
-### A. The Mascot (`<pudo-mascot>`)
-Pudo is a layered, interactive SVG character structured into 4 independent layers:
+### A. The Mascot (`<domo-mascot>`)
+Domo is a layered, interactive SVG character structured into 4 independent layers:
 1. **Base Body:** Scalable, squishy blob container with CSS Bézier curve transitions and JS spring recovery on click/drag.
 2. **Eye Tracking System:**
    - Two circular black pupils inside white circular sclera.
    - **Desktop Behavior:** Pupils track `window.onmousemove` coordinates (`clientX`, `clientY`) using trigonometry (`Math.atan2`) constrained within the sclera radius.
-   - **Mobile Behavior:** Pupils track the last touch coordinates (`lastTouchX`, `lastTouchY`). When idle for >3 seconds, Pudo blinks and smoothly shifts gaze to random items on the snack tray or directly forward.
+   - **Mobile Behavior:** Pupils track the last touch coordinates (`lastTouchX`, `lastTouchY`). When idle for >3 seconds, Domo blinks and smoothly shifts gaze to random items on the snack tray or directly forward.
    - **Eye States:** `normal`, `blinking`, `starry` (✨), `dizzy` (😵‍💫), `wide-shocked` (😳), `squinting-happy` (😆).
 3. **Mouth & Speech Synchronizer:**
    - Swaps between `smile`, `open-talking`, `fire-breathing`, and `puffing-cheeks`.
    - When speaking, the mouth toggles open and closed in sync with the Web Audio API syllable timer.
 4. **Accessory/Hat Overlay:**
-   - Absolutely positioned layer above Pudo's head where unlocked accessories (`tiny-crown`, `sunglasses`, `party-hat`) dynamically attach when activated.
+   - Absolutely positioned layer above Domo's head where unlocked accessories (`tiny-crown`, `sunglasses`, `party-hat`) dynamically attach when activated.
 
 ### B. The Snack Bar (`<snack-tray>`)
 Fixed at the bottom of the viewport, displaying 6 draggable/tappable snack items:
 - **Universal Input Strategy:**
-  - **Desktop:** Users can click to feed *OR* drag and drop the snack item onto Pudo's body.
-  - **Mobile:** Tapping any snack triggers a Bézier arc animation where a duplicate of the snack item pops out of the tray, flips through the air, and lands inside Pudo's open mouth (`touch-action: none` enabled on Pudo to prevent accidental page scrolling).
+   - **Desktop:** Users can click to feed *OR* drag and drop the snack item onto Domo's body.
+   - **Mobile:** Tapping any snack triggers a Bézier arc animation where a duplicate of the snack item pops out of the tray, flips through the air, and lands inside Domo's open mouth (`touch-action: none` enabled on Domo to prevent accidental page scrolling).
 
 ### C. Reaction State Machine
-To prevent animation bugs or layout glitches when users rapidly click items, Pudo operates under a strict state machine:
+To prevent animation bugs or layout glitches when users rapidly click items, Domo operates under a strict state machine:
 - **States:** `IDLE` ↔ `REACTING` ↔ `RECOVERING`.
-- **Interrupt Rule:** If Pudo is in `REACTING` state (e.g., mid-way through breathing chili fire) and the user triggers a new snack, the current animation immediately cancels (`clearTimeout(activeReactionTimer)`), resets CSS transform classes, and initiates the new snack reaction seamlessly.
+- **Interrupt Rule:** If Domo is in `REACTING` state (e.g., mid-way through breathing chili fire) and the user triggers a new snack, the current animation immediately cancels (`clearTimeout(activeReactionTimer)`), resets CSS transform classes, and initiates the new snack reaction seamlessly.
 
 ---
 
@@ -49,24 +49,24 @@ To prevent animation bugs or layout glitches when users rapidly click items, Pud
 
 | Snack Item | Duration | Visual & Physics Animation | Animalese Voice & Pitch Shift |
 | :--- | :--- | :--- | :--- |
-| 🌶️ **Spicy Chili** | `4.0s` | Pudo turns fiery orange-red (`#FF4B2B`), shakes rapidly horizontally (`animation: shake 0.1s infinite`), blows cartoon smoke and flame vectors out both sides, and hops twice. | Deep, raspy, low-pitch rapid blips (`200Hz - 280Hz`). |
-| 🎈 **Helium Balloon** | `Hold until Click` | Pudo inflates (`transform: scale(1.4)`), drifts up toward the top of the viewport (`translateY(-120px)`), and floats gently. Clicking or tapping Pudo triggers a `*POP*` visual ring, deflating back to `scale(1)` with a rubbery bounce. | Squeaky, high-pitched treble blips (`600Hz - 850Hz`). |
-| ⚡ **Static Spark** | `3.5s` | Yellow lightning overlay flashes, Pudo's outline becomes "frizzy", and Pudo ricochets left and right across the screen boundaries 3 times like a pinball before settling. | Electric zap/crackle synth chirps (`sawtooth wave, 400Hz - 700Hz`). |
+| 🌶️ **Spicy Chili** | `4.0s` | Domo turns fiery orange-red (`#FF4B2B`), shakes rapidly horizontally (`animation: shake 0.1s infinite`), blows cartoon smoke and flame vectors out both sides, and hops twice. | Deep, raspy, low-pitch rapid blips (`200Hz - 280Hz`). |
+| 🎈 **Helium Balloon** | `Hold until Click` | Domo inflates (`transform: scale(1.4)`), drifts up toward the top of the viewport (`translateY(-120px)`), and floats gently. Clicking or tapping Domo triggers a `*POP*` visual ring, deflating back to `scale(1)` with a rubbery bounce. | Squeaky, high-pitched treble blips (`600Hz - 850Hz`). |
+| ⚡ **Static Spark** | `3.5s` | Yellow lightning overlay flashes, Domo's outline becomes "frizzy", and Domo ricochets left and right across the screen boundaries 3 times like a pinball before settling. | Electric zap/crackle synth chirps (`sawtooth wave, 400Hz - 700Hz`). |
 | ☕ **Espresso Shot** | `4.0s` | Eye pupils dilate wide, body bobs up and down at 3x hyper-speed (`animation-duration: 0.25s`), leaving a colorful rainbow motion-blur trail across the canvas. | Staccato, hyper-fast chirps (`800Hz+, 40ms intervals`). |
-| 🧊 **Frost Cube** | `Hold until Click` | Pudo turns icy cyan-blue (`#00F2FE`), shivers (`translateX(-2px to 2px)`), and gets encased in a translucent ice cube outline. Clicking/tapping shatters the ice into SVG snowflake shards. | Chimey, crystal-clear bell tones (`sine wave, 900Hz - 1200Hz`). |
-| 👑 **Golden Star** | `4.5s` | A burst of golden star confetti rains down from top, Pudo does a triumphant 360-degree spin (`transform: rotate(360deg)`), and permanently puts on the `tiny-crown` accessory. | Triumphant fanfare chord + sparkly twinkle blips (`major triad progression`). |
+| 🧊 **Frost Cube** | `Hold until Click` | Domo turns icy cyan-blue (`#00F2FE`), shivers (`translateX(-2px to 2px)`), and gets encased in a translucent ice cube outline. Clicking/tapping shatters the ice into SVG snowflake shards. | Chimey, crystal-clear bell tones (`sine wave, 900Hz - 1200Hz`). |
+| 👑 **Golden Star** | `4.5s` | A burst of golden star confetti rains down from top, Domo does a triumphant 360-degree spin (`transform: rotate(360deg)`), and permanently puts on the `tiny-crown` accessory. | Triumphant fanfare chord + sparkly twinkle blips (`major triad progression`). |
 
 ---
 
 ## 5. URL Encoding, Sharing & Security Specification
 
 ### A. Custom Message Workflow
-1. **Input Interface:** A clean input bar situated below Pudo:
-   - Text input (`maxlength="120"`, placeholder: *"Type a message for Pudo to say..."*).
+1. **Input Interface:** A clean input bar situated below Domo:
+   - Text input (`maxlength="120"`, placeholder: *"Type a message for Domo to say..."*).
    - Action Button: **"Copy Share Link 🔗"**.
 2. **Link Generation:** When clicked, generates:
    `https://hello.pudomo.com/?msg=` + `encodeURIComponent(userInput.trim())` + `&hat=` + `currentHat`
-   Copies to device clipboard and displays toast: *"✨ Link copied! Send it to a friend so Pudo can greet them!"*
+   Copies to device clipboard and displays toast: *"✨ Link copied! Send it to a friend so Domo can greet them!"*
 
 ### B. Security & Sanitization (Strict Enforcement)
 - **XSS Prevention:** All incoming URL parameters (`new URLSearchParams(window.location.search).get('msg')`) MUST be injected strictly into text nodes via `element.textContent` or `element.innerText`. **Never use `.innerHTML` under any circumstances.**
@@ -74,20 +74,20 @@ To prevent animation bugs or layout glitches when users rapidly click items, Pud
 
 ### C. Default vs. Custom URL States & Autoplay Audio Handling
 - **Default State (No `?msg=`):**
-  - Pudo automatically speaks: *"Hi friend! I'm Pudo, your host at pudomo.com! Try feeding me a snack from below and see what happens!"* (Visual bubble immediately visible; audio triggers on first user tap/click).
+   - Domo automatically speaks: *"Hi friend! I'm Domo, your host at pudomo.com! Try feeding me a snack from below and see what happens!"* (Visual bubble immediately visible; audio triggers on first user tap/click).
 - **Custom State (`?msg=...` present):**
-  - Browsers block autoplay audio until the first interaction. Therefore, when `?msg=` is detected:
-    1. Pudo bounces cheerfully holding a glowing invitation badge: **"👉 Pudo has a custom message for you! [Tap/Click anywhere to listen]"**
-    2. Upon the first pointer down / touch event anywhere on the document, the badge fades out, Pudo does a happy backflip, and begins typing out the custom message letter-by-letter synchronized with the melodic Animalese Web Audio blips.
+   - Browsers block autoplay audio until the first interaction. Therefore, when `?msg=` is detected:
+     1. Domo bounces cheerfully holding a glowing invitation badge: **"👉 Domo has a custom message for you! [Tap/Click anywhere to listen]"**
+     2. Upon the first pointer down / touch event anywhere on the document, the badge fades out, Domo does a happy backflip, and begins typing out the custom message letter-by-letter synchronized with the melodic Animalese Web Audio blips.
 
 ---
 
 ## 6. Responsive Layout & Mobile Optimization
-- **Touch-Action Locking:** Set `touch-action: manipulation` or `none` on the `#pudo-container` so dragging or stretching Pudo on mobile does not trigger browser pull-to-refresh or page scrolling.
+- **Touch-Action Locking:** Set `touch-action: manipulation` or `none` on the `#domo-container` so dragging or stretching Domo on mobile does not trigger browser pull-to-refresh or page scrolling.
 - **Viewport Structure:**
-  - **Header:** Clean, lightweight header showing `pudomo.com` logo and sound toggle (`🔊 / 🔇`).
-  - **Center Stage (Flexible flex-grow):** Pudo centered with responsive scaling (`clamp(180px, 40vw, 320px)`).
-  - **Bottom Action Area:** Custom speech input box stacked above the horizontal horizontally-scrollable or 2-row grid Snack Tray (`min-height: 80px` for comfortable touch targets >= `48x48px`).
+   - **Header:** Clean, lightweight header showing `pudomo.com` logo and sound toggle (`🔊 / 🔇`).
+   - **Center Stage (Flexible flex-grow):** Domo centered with responsive scaling (`clamp(180px, 40vw, 320px)`).
+   - **Bottom Action Area:** Custom speech input box stacked above the horizontal horizontally-scrollable or 2-row grid Snack Tray (`min-height: 80px` for comfortable touch targets >= `48x48px`).
 
 ---
 
