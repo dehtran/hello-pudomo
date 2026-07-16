@@ -421,6 +421,9 @@ domo-mascot:active {
   transition: transform 2.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 /* Slowly sway while floating */
+.domo-sway-group {
+  transform-origin: 100px 140px;
+}
 .state-balloon-sway {
   animation: balloon-sway 3s ease-in-out infinite alternate;
 }

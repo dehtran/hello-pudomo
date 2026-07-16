@@ -48,104 +48,107 @@ class DomoMascot extends HTMLElement {
         <g class="domo-idle-group">
           <!-- CSS Reaction Group (animates shakes, spins, ricochets) -->
           <g class="domo-reaction-group">
-            <!-- Main Body Group (animates click/drag spring squish in JS) -->
-            <g class="domo-body-group">
-              
-              <!-- Body Outline & Shape (Soft egg-like pear) -->
-              <path id="domo-body" d="M 40,110 C 40,65 70,45 100,45 C 130,45 160,65 160,110 C 160,150 135,168 100,168 C 65,168 40,150 40,110 Z" 
-                    fill="#FFD23F" stroke="#2C2623" stroke-width="5" stroke-linejoin="round" />
-              
-              <!-- Rosy Cheeks -->
-              <ellipse cx="58" cy="106" rx="9" ry="5.5" fill="#FF8E91" opacity="0.65" />
-              <ellipse cx="142" cy="106" rx="9" ry="5.5" fill="#FF8E91" opacity="0.65" />
-              
-              <!-- Eye System -->
-              <!-- Left Eye Sclera -->
-              <circle id="left-sclera" cx="75" cy="88" r="16" fill="#FFFFFF" stroke="#2C2623" stroke-width="4.5" />
-              <!-- Right Eye Sclera -->
-              <circle id="right-sclera" cx="125" cy="88" r="16" fill="#FFFFFF" stroke="#2C2623" stroke-width="4.5" />
+            <!-- CSS Sway Group (animates balloon swaying) -->
+            <g class="domo-sway-group">
+              <!-- Main Body Group (animates click/drag spring squish in JS) -->
+              <g class="domo-body-group">
+                
+                <!-- Body Outline & Shape (Soft egg-like pear) -->
+                <path id="domo-body" d="M 40,110 C 40,65 70,45 100,45 C 130,45 160,65 160,110 C 160,150 135,168 100,168 C 65,168 40,150 40,110 Z" 
+                      fill="#FFD23F" stroke="#2C2623" stroke-width="5" stroke-linejoin="round" />
+                
+                <!-- Rosy Cheeks -->
+                <ellipse cx="58" cy="106" rx="9" ry="5.5" fill="#FF8E91" opacity="0.65" />
+                <ellipse cx="142" cy="106" rx="9" ry="5.5" fill="#FF8E91" opacity="0.65" />
+                
+                <!-- Eye System -->
+                <!-- Left Eye Sclera -->
+                <circle id="left-sclera" cx="75" cy="88" r="16" fill="#FFFFFF" stroke="#2C2623" stroke-width="4.5" />
+                <!-- Right Eye Sclera -->
+                <circle id="right-sclera" cx="125" cy="88" r="16" fill="#FFFFFF" stroke="#2C2623" stroke-width="4.5" />
 
-              <!-- Normal Pupils -->
-              <circle id="left-pupil" cx="75" cy="88" r="6.5" fill="#2C2623" />
-              <circle id="right-pupil" cx="125" cy="88" r="6.5" fill="#2C2623" />
+                <!-- Normal Pupils -->
+                <circle id="left-pupil" cx="75" cy="88" r="6.5" fill="#2C2623" />
+                <circle id="right-pupil" cx="125" cy="88" r="6.5" fill="#2C2623" />
 
-              <!-- Dizzy Eyes (😵‍💫) -->
-              <g id="eyes-dizzy" class="hidden-layer">
-                <path d="M 68,81 L 82,95 M 82,81 L 68,95" stroke="#2C2623" stroke-width="4" stroke-linecap="round" />
-                <path d="M 118,81 L 132,95 M 132,81 L 118,95" stroke="#2C2623" stroke-width="4" stroke-linecap="round" />
+                <!-- Dizzy Eyes (😵‍💫) -->
+                <g id="eyes-dizzy" class="hidden-layer">
+                  <path d="M 68,81 L 82,95 M 82,81 L 68,95" stroke="#2C2623" stroke-width="4" stroke-linecap="round" />
+                  <path d="M 118,81 L 132,95 M 132,81 L 118,95" stroke="#2C2623" stroke-width="4" stroke-linecap="round" />
+                </g>
+
+                <!-- Starry Eyes (✨) -->
+                <g id="eyes-star" class="hidden-layer">
+                  <path d="M 75,76 L 78,84 L 86,87 L 78,90 L 75,98 L 72,90 L 64,87 L 72,84 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="2" />
+                  <path d="M 125,76 L 128,84 L 136,87 L 128,90 L 125,98 L 122,90 L 114,87 L 122,84 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="2" />
+                </g>
+
+                <!-- Closed Eyes (😆/Blink) -->
+                <g id="eyes-closed" class="hidden-layer">
+                  <path d="M 59,88 Q 75,98 91,88" fill="none" stroke="#2C2623" stroke-width="4.5" stroke-linecap="round" />
+                  <path d="M 109,88 Q 125,98 141,88" fill="none" stroke="#2C2623" stroke-width="4.5" stroke-linecap="round" />
+                </g>
+
+                <!-- Mouths -->
+                <!-- Smile (Default) -->
+                <path id="mouth-smile" d="M 90,110 Q 100,119 110,110" fill="none" stroke="#2C2623" stroke-width="4" stroke-linecap="round" />
+                
+                <!-- Open talking (O shape) -->
+                <ellipse id="mouth-talk" class="hidden-layer" cx="100" cy="113" rx="8" ry="11" fill="#2C2623" />
+                
+                <!-- Fire-breathing (spicy reaction) -->
+                <path id="mouth-fire" class="hidden-layer" d="M 86,110 Q 100,132 114,110 Z" fill="#FF4B2B" stroke="#2C2623" stroke-width="4.5" stroke-linejoin="round" />
+                
+                <!-- Puffing Cheeks (Espresso/static reactions) -->
+                <circle id="mouth-cheeks" class="hidden-layer" cx="100" cy="112" r="6" fill="none" stroke="#2C2623" stroke-width="4" />
+                
+                <!-- Accessories & Hats -->
+                <!-- Tiny Crown -->
+                <g id="acc-crown" class="hidden-layer" transform="translate(100, 36)">
+                  <path d="M -18,0 L -22,-16 L -8,-7 L 0,-22 L 8,-7 L 22,-16 L 18,0 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="3" stroke-linejoin="round" />
+                  <circle cx="-22" cy="-16" r="3" fill="#FF5A5F" stroke="#2C2623" stroke-width="1.5" />
+                  <circle cx="0" cy="-22" r="3" fill="#A8DADC" stroke="#2C2623" stroke-width="1.5" />
+                  <circle cx="22" cy="-16" r="3" fill="#FF5A5F" stroke="#2C2623" stroke-width="1.5" />
+                </g>
+
+                <!-- Party Hat -->
+                <g id="acc-party-hat" class="hidden-layer" transform="translate(100, 42)">
+                  <path d="M -15,0 L 0,-34 L 15,0 Z" fill="#FF5A5F" stroke="#2C2623" stroke-width="3" stroke-linejoin="round" />
+                  <circle cx="0" cy="-34" r="4.5" fill="#FFD23F" stroke="#2C2623" stroke-width="2" />
+                  <path d="M -8,-17 L 8,-17 M -11,-8 L 11,-8" stroke="#FFFFFF" stroke-width="2.5" />
+                </g>
+
+                <!-- Sunglasses -->
+                <g id="acc-sunglasses" class="hidden-layer" transform="translate(100, 88)">
+                  <path d="M -30,-5 L -8,-5 C -8,7 -30,7 -30,-5 Z" fill="#2C2623" stroke="#2C2623" stroke-width="2" />
+                  <path d="M 8,-5 L 30,-5 C 30,7 8,7 8,-5 Z" fill="#2C2623" stroke="#2C2623" stroke-width="2" />
+                  <path d="M -8,-2 L 8,-2" stroke="#2C2623" stroke-width="3" stroke-linecap="round" />
+                </g>
+
+                <!-- --- Visual FX Layers --- -->
+                <!-- 🌶️ Chili Flames -->
+                <g id="fx-flames" class="hidden-layer">
+                  <path d="M 38,105 Q 12,92 24,78 Q -5,100 24,115 Z" fill="#FF4B2B" stroke="#2C2623" stroke-width="2.5" stroke-linejoin="round" />
+                  <path d="M 32,120 Q 8,118 16,105 Q -2,120 22,130 Z" fill="#FF8A00" stroke="#2C2623" stroke-width="2" stroke-linejoin="round" />
+                  <path d="M 162,105 Q 188,92 176,78 Q 205,100 176,115 Z" fill="#FF4B2B" stroke="#2C2623" stroke-width="2.5" stroke-linejoin="round" />
+                  <path d="M 168,120 Q 192,118 184,105 Q 202,120 178,130 Z" fill="#FF8A00" stroke="#2C2623" stroke-width="2" stroke-linejoin="round" />
+                </g>
+
+                <!-- ⚡ Static Spark Lightning Bolt -->
+                <g id="fx-lightning" class="hidden-layer">
+                  <path d="M 90,25 L 115,65 L 98,70 L 120,110 L 105,110 L 92,75 L 108,70 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="3" stroke-linejoin="round" />
+                </g>
+
+                <!-- 🧊 Translucent Ice Cube encasing Domo -->
+                <g id="fx-ice" class="hidden-layer">
+                  <rect x="25" y="32" width="150" height="142" rx="22" fill="rgba(0, 242, 254, 0.26)" stroke="#00F2FE" stroke-width="5" stroke-linejoin="round" />
+                  <path d="M 40,55 L 70,55 M 40,55 L 40,85" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" opacity="0.65" />
+                </g>
+                
+                <!-- 🎈 Balloon Pop Expand Ring -->
+                <circle id="fx-pop-ring" class="hidden-layer" cx="100" cy="100" r="10" fill="none" stroke="#2C2623" stroke-width="4.5" />
+
               </g>
-
-              <!-- Starry Eyes (✨) -->
-              <g id="eyes-star" class="hidden-layer">
-                <path d="M 75,76 L 78,84 L 86,87 L 78,90 L 75,98 L 72,90 L 64,87 L 72,84 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="2" />
-                <path d="M 125,76 L 128,84 L 136,87 L 128,90 L 125,98 L 122,90 L 114,87 L 122,84 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="2" />
-              </g>
-
-              <!-- Closed Eyes (😆/Blink) -->
-              <g id="eyes-closed" class="hidden-layer">
-                <path d="M 59,88 Q 75,98 91,88" fill="none" stroke="#2C2623" stroke-width="4.5" stroke-linecap="round" />
-                <path d="M 109,88 Q 125,98 141,88" fill="none" stroke="#2C2623" stroke-width="4.5" stroke-linecap="round" />
-              </g>
-
-              <!-- Mouths -->
-              <!-- Smile (Default) -->
-              <path id="mouth-smile" d="M 90,110 Q 100,119 110,110" fill="none" stroke="#2C2623" stroke-width="4" stroke-linecap="round" />
-              
-              <!-- Open talking (O shape) -->
-              <ellipse id="mouth-talk" class="hidden-layer" cx="100" cy="113" rx="8" ry="11" fill="#2C2623" />
-              
-              <!-- Fire-breathing (spicy reaction) -->
-              <path id="mouth-fire" class="hidden-layer" d="M 86,110 Q 100,132 114,110 Z" fill="#FF4B2B" stroke="#2C2623" stroke-width="4.5" stroke-linejoin="round" />
-              
-              <!-- Puffing Cheeks (Espresso/static reactions) -->
-              <circle id="mouth-cheeks" class="hidden-layer" cx="100" cy="112" r="6" fill="none" stroke="#2C2623" stroke-width="4" />
-              
-              <!-- Accessories & Hats -->
-              <!-- Tiny Crown -->
-              <g id="acc-crown" class="hidden-layer" transform="translate(100, 36)">
-                <path d="M -18,0 L -22,-16 L -8,-7 L 0,-22 L 8,-7 L 22,-16 L 18,0 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="3" stroke-linejoin="round" />
-                <circle cx="-22" cy="-16" r="3" fill="#FF5A5F" stroke="#2C2623" stroke-width="1.5" />
-                <circle cx="0" cy="-22" r="3" fill="#A8DADC" stroke="#2C2623" stroke-width="1.5" />
-                <circle cx="22" cy="-16" r="3" fill="#FF5A5F" stroke="#2C2623" stroke-width="1.5" />
-              </g>
-
-              <!-- Party Hat -->
-              <g id="acc-party-hat" class="hidden-layer" transform="translate(100, 42)">
-                <path d="M -15,0 L 0,-34 L 15,0 Z" fill="#FF5A5F" stroke="#2C2623" stroke-width="3" stroke-linejoin="round" />
-                <circle cx="0" cy="-34" r="4.5" fill="#FFD23F" stroke="#2C2623" stroke-width="2" />
-                <path d="M -8,-17 L 8,-17 M -11,-8 L 11,-8" stroke="#FFFFFF" stroke-width="2.5" />
-              </g>
-
-              <!-- Sunglasses -->
-              <g id="acc-sunglasses" class="hidden-layer" transform="translate(100, 88)">
-                <path d="M -30,-5 L -8,-5 C -8,7 -30,7 -30,-5 Z" fill="#2C2623" stroke="#2C2623" stroke-width="2" />
-                <path d="M 8,-5 L 30,-5 C 30,7 8,7 8,-5 Z" fill="#2C2623" stroke="#2C2623" stroke-width="2" />
-                <path d="M -8,-2 L 8,-2" stroke="#2C2623" stroke-width="3" stroke-linecap="round" />
-              </g>
-
-              <!-- --- Visual FX Layers --- -->
-              <!-- 🌶️ Chili Flames -->
-              <g id="fx-flames" class="hidden-layer">
-                <path d="M 38,105 Q 12,92 24,78 Q -5,100 24,115 Z" fill="#FF4B2B" stroke="#2C2623" stroke-width="2.5" stroke-linejoin="round" />
-                <path d="M 32,120 Q 8,118 16,105 Q -2,120 22,130 Z" fill="#FF8A00" stroke="#2C2623" stroke-width="2" stroke-linejoin="round" />
-                <path d="M 162,105 Q 188,92 176,78 Q 205,100 176,115 Z" fill="#FF4B2B" stroke="#2C2623" stroke-width="2.5" stroke-linejoin="round" />
-                <path d="M 168,120 Q 192,118 184,105 Q 202,120 178,130 Z" fill="#FF8A00" stroke="#2C2623" stroke-width="2" stroke-linejoin="round" />
-              </g>
-
-              <!-- ⚡ Static Spark Lightning Bolt -->
-              <g id="fx-lightning" class="hidden-layer">
-                <path d="M 90,25 L 115,65 L 98,70 L 120,110 L 105,110 L 92,75 L 108,70 Z" fill="#FFD23F" stroke="#2C2623" stroke-width="3" stroke-linejoin="round" />
-              </g>
-
-              <!-- 🧊 Translucent Ice Cube encasing Domo -->
-              <g id="fx-ice" class="hidden-layer">
-                <rect x="25" y="32" width="150" height="142" rx="22" fill="rgba(0, 242, 254, 0.26)" stroke="#00F2FE" stroke-width="5" stroke-linejoin="round" />
-                <path d="M 40,55 L 70,55 M 40,55 L 40,85" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" opacity="0.65" />
-              </g>
-              
-              <!-- 🎈 Balloon Pop Expand Ring -->
-              <circle id="fx-pop-ring" class="hidden-layer" cx="100" cy="100" r="10" fill="none" stroke="#2C2623" stroke-width="4.5" />
-
             </g>
           </g>
         </g>
@@ -155,6 +158,7 @@ class DomoMascot extends HTMLElement {
     // Cache elements
     this.bodyGroup = this.querySelector('.domo-body-group');
     this.reactionGroup = this.querySelector('.domo-reaction-group');
+    this.swayGroup = this.querySelector('.domo-sway-group');
     this.leftPupil = this.querySelector('#left-pupil');
     this.rightPupil = this.querySelector('#right-pupil');
     this.leftSclera = this.querySelector('#left-sclera');
@@ -228,6 +232,59 @@ class DomoMascot extends HTMLElement {
     this.scaleY = yFactor;
   }
 
+  // Programmatic frequency-sweep synthesizers for interactive spring physics
+  playBoingDown() {
+    if (this.isMuted) return;
+    this.initAudio();
+    if (!this.audioCtx) return;
+    
+    if (this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+    
+    const osc = this.audioCtx.createOscillator();
+    const gainNode = this.audioCtx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(320, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, this.audioCtx.currentTime + 0.12);
+    
+    gainNode.gain.setValueAtTime(0.06, this.audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + 0.12);
+    
+    osc.connect(gainNode);
+    gainNode.connect(this.audioCtx.destination);
+    
+    osc.start();
+    osc.stop(this.audioCtx.currentTime + 0.12);
+  }
+
+  playBoingUp() {
+    if (this.isMuted) return;
+    this.initAudio();
+    if (!this.audioCtx) return;
+    
+    if (this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+    
+    const osc = this.audioCtx.createOscillator();
+    const gainNode = this.audioCtx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(150, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(380, this.audioCtx.currentTime + 0.15);
+    
+    gainNode.gain.setValueAtTime(0.06, this.audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + 0.15);
+    
+    osc.connect(gainNode);
+    gainNode.connect(this.audioCtx.destination);
+    
+    osc.start();
+    osc.stop(this.audioCtx.currentTime + 0.15);
+  }
+
   // --- Pointer & Touch Interaction System ---
   initInteraction() {
     // Click / Touch squash effect
@@ -245,6 +302,9 @@ class DomoMascot extends HTMLElement {
         return;
       }
       
+      // Play tactical squish pitch sweep
+      this.playBoingDown();
+
       // Otherwise, trigger the interactive squish targets
       this.targetScaleX = 1.24;
       this.targetScaleY = 0.72;
@@ -263,6 +323,11 @@ class DomoMascot extends HTMLElement {
     const releaseSquish = () => {
       if (this.reactionGroup.classList.contains('state-balloon') || this.classList.contains('state-frozen')) {
         return; // Don't interrupt balloon or ice status scale
+      }
+
+      // Play tactical rebound pitch sweep only if we were actually squished
+      if (this.targetScaleX !== 1) {
+        this.playBoingUp();
       }
 
       // Return target scale to 1.0 (physics spring will trigger bounce)
@@ -628,8 +693,9 @@ class DomoMascot extends HTMLElement {
         this.targetScaleX = 1;
         this.targetScaleY = 1;
 
-        // Apply scale/float class
-        this.reactionGroup.classList.add('state-balloon', 'state-balloon-sway');
+        // Apply scale/float classes (separated to avoid transform overrides)
+        this.reactionGroup.classList.add('state-balloon');
+        this.swayGroup.classList.add('state-balloon-sway');
 
         this.speakMessage("Wheee! Look at me float! Squeak!", 650, 850, 95, 'sine');
         
@@ -725,13 +791,13 @@ class DomoMascot extends HTMLElement {
     this.reactionGroup.classList.remove(
       'state-chili-shake',
       'state-balloon',
-      'state-balloon-sway',
       'state-spark-ricochet',
       'state-espresso-bob',
       'state-espresso-trail',
       'state-frost-shiver',
       'state-star-spin'
     );
+    this.swayGroup.classList.remove('state-balloon-sway');
 
     // Hide FX layers
     this.fxFlames.classList.add('hidden-layer');
@@ -748,7 +814,8 @@ class DomoMascot extends HTMLElement {
 
   // Pop animation for Helium Balloon
   popBalloon() {
-    this.reactionGroup.classList.remove('state-balloon', 'state-balloon-sway');
+    this.reactionGroup.classList.remove('state-balloon');
+    this.swayGroup.classList.remove('state-balloon-sway');
     
     this.playPopFx();
     this.animatePopRing();
